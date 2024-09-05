@@ -2,13 +2,16 @@ version: '3'
 services:
   web:
     image: demoapp
+    build: .
     ports:
       - "8080:80"
     deploy:
-      replicas: 3
-      restart_policy:
-        condition: on-failure
-    update_config:
-      parallelism: 2
-      delay: 10s
+      replicas: 3   # This will create 3 instances of the web service
+      update_config:
+        parallelism: 2
+        delay: 10s
+      resources:  # Add resources here (memory/CPU limits), but not under 'services.web'
+        limits:
+          cpus: '0.50'
+          memory: 512M
 
